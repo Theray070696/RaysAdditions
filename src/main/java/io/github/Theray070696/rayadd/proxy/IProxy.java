@@ -13,13 +13,5 @@ public interface IProxy
 
     public void init(FMLInitializationEvent event);
 
-    public void useZoom();
-
     public EntityPlayer getClientPlayer();
-
-    public void resetData();
-
-    public void doRecoil(double v, double h);
-
-    public void doExplosionFX(double x, double y, double z);
 }

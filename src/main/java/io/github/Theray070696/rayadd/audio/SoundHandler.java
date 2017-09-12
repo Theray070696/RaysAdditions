@@ -13,39 +13,9 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
  */
 public class SoundHandler
 {
-    // Guns
-
-    public static SoundEvent empty;
-    public static SoundEvent reload;
-    public static SoundEvent impact;
-
-    public static SoundEvent ak47;
-    public static SoundEvent deagle;
-    public static SoundEvent m4;
-    public static SoundEvent minigun;
-    public static SoundEvent mp5;
-    public static SoundEvent sg552;
-    public static SoundEvent shotgun;
-    public static SoundEvent sniper;
-    public static SoundEvent rocket;
-
     public static void init()
     {
-        // Guns
 
-        empty = register("gun.empty");
-        reload = register("gun.reload");
-        impact = register("gun.impact");
-
-        ak47 = register("gun.ak47");
-        deagle = register("gun.deagle");
-        m4 = register("gun.m4");
-        minigun = register("gun.minigun");
-        mp5 = register("gun.mp5");
-        sg552 = register("gun.sg552");
-        shotgun = register("gun.shotgun");
-        sniper = register("gun.sniper");
-        rocket = register("gun.rocket");
     }
 
     public static SoundEvent register(String name)

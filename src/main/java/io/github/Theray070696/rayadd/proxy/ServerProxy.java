@@ -26,15 +26,4 @@ public class ServerProxy extends CommonProxy
     {
         super.init(event);
     }
-
-    @Override
-    public void useZoom() {}
-
-    @Override
-    public void resetData() {}
-
-    @Override
-    public void doRecoil(double v, double h) {}
-
-    public void doExplosionFX(double x, double y, double z) {}
 }
