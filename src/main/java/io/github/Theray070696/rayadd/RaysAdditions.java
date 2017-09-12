@@ -80,8 +80,6 @@ public class RaysAdditions
         NetworkRegistry.INSTANCE.registerGuiHandler(INSTANCE, new GuiHandler());
     
         CraftingHandler.initCraftingRecipes();
-    
-        //MinecraftForge.EVENT_BUS.register(new ForgeEventHandler());
 
         PluginHandler.getInstance().init();
         

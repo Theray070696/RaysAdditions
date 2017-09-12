@@ -30,7 +30,7 @@ public class PluginHandler
 
     public void registerPlugin(IPlugin plugin)
     {
-        loadPlugin(plugin);
+        this.loadPlugin(plugin);
     }
 
     private void loadPlugin(IPlugin plugin)
@@ -38,9 +38,9 @@ public class PluginHandler
         if(!Loader.isModLoaded(plugin.getModID())) return;
 
         LogHelper.info("Registering plugin for " + plugin.getModID());
-        plugins.add(plugin);
+        this.plugins.add(plugin);
 
-        switch(currentPhase)
+        switch(this.currentPhase)
         {
             case DONE:
             case POSTINIT:
@@ -62,21 +62,21 @@ public class PluginHandler
 
     public void preInit()
     {
-        currentPhase = Phase.PREINIT;
+        this.currentPhase = Phase.PREINIT;
         for(IPlugin plugin : plugins) plugin.preInit();
     }
 
     public void init()
     {
-        currentPhase = Phase.INIT;
+        this.currentPhase = Phase.INIT;
         for(IPlugin plugin : plugins) plugin.init();
     }
 
     public void postInit()
     {
-        currentPhase = Phase.POSTINIT;
+        this.currentPhase = Phase.POSTINIT;
         for(IPlugin plugin : plugins) plugin.postInit();
-        currentPhase = Phase.DONE;
+        this.currentPhase = Phase.DONE;
     }
 
     public void registerBuiltInPlugins()

@@ -7,7 +7,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.SoundEvent;
 
 /**
  * Created by Theray070696 on 1/22/2017.
@@ -22,21 +21,21 @@ public class TileLoopingJukebox extends TileInventory implements ITickable
     @Override
     public void update()
     {
-        if(isPlayingRecord)
+        if(this.isPlayingRecord)
         {
-            if(getStackInSlot(0) == null || recordItemStack == null || !getStackInSlot(0).equals(recordItemStack))
+            if(this.getStackInSlot(0) == null || this.recordItemStack == null || !this.getStackInSlot(0).equals(this.recordItemStack))
             {
-                stopRecord();
+                this.stopRecord();
             }
             
-            if(recordLength != -1)
+            if(this.recordLength != -1)
             {
-                playTime++;
+                this.playTime++;
     
-                if(playTime >= recordLength)
+                if(this.playTime >= this.recordLength)
                 {
-                    stopRecord();
-                    playRecord();
+                    this.stopRecord();
+                    this.playRecord();
                 }
             }
         }
@@ -62,36 +61,36 @@ public class TileLoopingJukebox extends TileInventory implements ITickable
 
     public void playRecord()
     {
-        if(getStackInSlot(0) != null && getStackInSlot(0).getItem() instanceof ItemRecord)
+        if(this.getStackInSlot(0) != null && this.getStackInSlot(0).getItem() instanceof ItemRecord)
         {
-            recordItemStack = getStackInSlot(0);
-            Item item = recordItemStack.getItem();
+            this.recordItemStack = this.getStackInSlot(0);
+            Item item = this.recordItemStack.getItem();
 
-            worldObj.playEvent(1010, pos, Item.getIdFromItem(item));
-            isPlayingRecord = true;
-            playTime = 0;
+            this.worldObj.playEvent(1010, pos, Item.getIdFromItem(item));
+            this.isPlayingRecord = true;
+            this.playTime = 0;
             
             if(item instanceof ItemRayRecord)
             {
-                recordLength = ((ItemRayRecord) item).recordLength;
+                this.recordLength = ((ItemRayRecord) item).recordLength;
             } else if(RecordLengthDB.recordLengthMap.containsKey(item))
             {
-                recordLength = RecordLengthDB.recordLengthMap.get(item);
+                this.recordLength = RecordLengthDB.recordLengthMap.get(item);
             } else
             {
-                recordLength = -1; // Record will only play once if there's no entry for the record.
+                this.recordLength = -1; // Record will only play once if there's no entry for the record.
             }
         }
     }
     
     public void stopRecord()
     {
-        worldObj.playEvent(1010, pos, 0);
-        worldObj.playRecord(pos, (SoundEvent)null);
-        isPlayingRecord = false;
-        playTime = 0;
-        recordLength = -1;
-        recordItemStack = null;
+        this.worldObj.playEvent(1010, this.pos, 0);
+        this.worldObj.playRecord(this.pos, null);
+        this.isPlayingRecord = false;
+        this.playTime = 0;
+        this.recordLength = -1;
+        this.recordItemStack = null;
     }
 
     @Override

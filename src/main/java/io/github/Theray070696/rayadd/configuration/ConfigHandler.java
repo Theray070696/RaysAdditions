@@ -18,7 +18,6 @@ public class ConfigHandler
     public static boolean explosionsDestroyBlocks;
     public static boolean showAmmoBar;
     public static boolean spawnWithDeagle;
-    public static boolean classicMode;
 
     public static final boolean bulletsDestroyGlassDefault = true;
     public static final boolean ammoRestrictionsDefault = true;
@@ -26,7 +25,6 @@ public class ConfigHandler
     public static final boolean explosionsDestroyBlocksDefault = true;
     public static final boolean showAmmoBarDefault = true;
     public static final boolean spawnWithDeagleDefault = true;
-    public static final boolean classicModeDefault = true;
 
     public static void loadConfig(FMLPreInitializationEvent event)
     {
@@ -39,7 +37,6 @@ public class ConfigHandler
         ammoCasings = config.getBoolean("Ammo Casings", "General", ammoCasingsDefault, "Whether or not ammo casings should drop.");
         explosionsDestroyBlocks = config.getBoolean("Explosions Destroy Blocks", "General", explosionsDestroyBlocksDefault, "Whether or not Rocket and Grenade explosions destroy blocks.");
         spawnWithDeagle = config.getBoolean("Spawn with Deagle", "General", spawnWithDeagleDefault, "Whether or not the player should spawn with a Desert Eagle and ammo.");
-        classicMode = config.getBoolean("Classic Gun Mode", "General", classicModeDefault, "If true, the mod load items and stats from the original SDKs Guns mod. If false, the mod will break the everything. Don't try it. Changing this will erase many items and blocks from existing worlds!");
 
         if(RaysAdditions.proxy.getSide().equals(Side.CLIENT))
         {

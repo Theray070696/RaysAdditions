@@ -2,31 +2,35 @@ package io.github.Theray070696.rayadd.item.gun;
 
 import io.github.Theray070696.rayadd.entity.EntityBullet;
 import io.github.Theray070696.rayadd.entity.EntityBulletCasing;
-import io.github.Theray070696.rayadd.entity.EntityBulletDeagle;
+import io.github.Theray070696.rayadd.entity.EntityBulletSniper;
 import io.github.Theray070696.rayadd.item.ModItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 
-public class ItemGunDeagle extends ItemGun
+/**
+ * Created by Theray070696 on 5/18/2017.
+ */
+public class ItemGunSniper extends ItemGun
 {
-    public ItemGunDeagle()
+    public ItemGunSniper()
     {
         super();
-        this.firingSound = "rayadd:gun.deagle";
-        this.requiredBullet = ModItems.itemBulletMedium;
+        this.firingSound = "rayadd:gun.sniper";
+        this.requiredBullet = ModItems.itemBulletHeavy;
         this.numBullets = 1;
-        this.damage = 9;
-        this.muzzleVelocity = 4F;
-        this.spread = 2.0F;
-        this.useDelay = 8;
-        this.recoil = 4F;
-        this.setUnlocalizedName("itemGunDeagle");
+        this.damage = 12;
+        this.muzzleVelocity = 8F;
+        this.spread = 0.0F;
+        this.useDelay = 20;
+        this.recoil = 8F;
+        this.soundRangeFactor = 8F;
+        this.setUnlocalizedName("itemGunSniper");
     }
 
     @Override
     public EntityBullet getBulletEntity(World world, Entity entity)
     {
-        return new EntityBulletDeagle(world, entity, this);
+        return new EntityBulletSniper(world, entity, this);
     }
 
     @Override

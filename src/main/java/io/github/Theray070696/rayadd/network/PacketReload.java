@@ -32,7 +32,7 @@ public class PacketReload implements IMessage
                 @Override
                 public void run()
                 {
-                    GunHandler.handleReloadClassic(ctx.getServerHandler().playerEntity.worldObj, ctx.getServerHandler().playerEntity, false);
+                    GunHandler.handleReload(ctx.getServerHandler().playerEntity.worldObj, ctx.getServerHandler().playerEntity, false);
                 }
             });
 

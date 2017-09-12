@@ -4,8 +4,6 @@ import io.github.Theray070696.rayadd.configuration.ConfigHandler;
 import io.github.Theray070696.rayadd.gun.GunHandler;
 import io.github.Theray070696.rayadd.item.ModItems;
 import io.github.Theray070696.rayadd.item.gun.ItemGun;
-import io.github.Theray070696.rayadd.item.gun.classic.ItemGunClassic;
-import io.github.Theray070696.rayadd.util.LogHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -41,16 +39,7 @@ public class EventHandler
 
                     if(!player.worldObj.isRemote && GunHandler.shooting.contains(player))
                     {
-                        if(player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof ItemGunClassic)
-                        {
-                            ItemGunClassic gun = (ItemGunClassic) player.getHeldItemMainhand().getItem();
-
-                            if(ItemGunClassic.canFire(player.getHeldItemMainhand()))
-                            {
-                                ItemGunClassic.addDelay(player.getHeldItemMainhand());
-                                gun.fireBullet(player.worldObj, player, player.getHeldItemMainhand());
-                            }
-                        } else if(player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof ItemGun)
+                        if(player.getHeldItemMainhand() != null && player.getHeldItemMainhand().getItem() instanceof ItemGun)
                         {
                             ItemGun gun = (ItemGun) player.getHeldItemMainhand().getItem();
 
@@ -89,13 +78,7 @@ public class EventHandler
         }
         while(true);*/
 
-        if(ConfigHandler.classicMode)
-        {
-            GunHandler.handleReloadClassic();
-        } else
-        {
-            GunHandler.handleReload();
-        }
+        GunHandler.handleReload();
 
         /*for(Object obj : server.getConfigurationManager().playerEntityList)
         {
@@ -124,7 +107,7 @@ public class EventHandler
     @SubscribeEvent
     public void respawnEvent(PlayerEvent.PlayerRespawnEvent event)
     {
-        if(ConfigHandler.spawnWithDeagle && ConfigHandler.classicMode)
+        if(ConfigHandler.spawnWithDeagle)
         {
             NBTTagCompound playerData = event.player.getEntityData();
             NBTTagCompound data = getTagSafe(playerData, EntityPlayer.PERSISTED_NBT_TAG);
@@ -144,7 +127,7 @@ public class EventHandler
     @SubscribeEvent
     public void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event)
     {
-        if(ConfigHandler.spawnWithDeagle && ConfigHandler.classicMode)
+        if(ConfigHandler.spawnWithDeagle)
         {
             NBTTagCompound playerData = event.player.getEntityData();
             NBTTagCompound data = getTagSafe(playerData, EntityPlayer.PERSISTED_NBT_TAG);

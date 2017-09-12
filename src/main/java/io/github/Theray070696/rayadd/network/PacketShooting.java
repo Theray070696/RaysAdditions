@@ -2,7 +2,6 @@ package io.github.Theray070696.rayadd.network;
 
 import io.github.Theray070696.rayadd.gun.GunHandler;
 import io.github.Theray070696.rayadd.item.gun.ItemGun;
-import io.github.Theray070696.rayadd.item.gun.classic.ItemGunClassic;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.util.IThreadListener;
 import net.minecraft.world.WorldServer;
@@ -47,7 +46,7 @@ public class PacketShooting implements IMessage
                 @Override
                 public void run()
                 {
-                    if(message.shooting && ctx.getServerHandler().playerEntity.getHeldItemMainhand() != null && (ctx.getServerHandler().playerEntity.getHeldItemMainhand().getItem() instanceof ItemGunClassic || ctx.getServerHandler().playerEntity.getHeldItemMainhand().getItem() instanceof ItemGun))
+                    if(message.shooting && ctx.getServerHandler().playerEntity.getHeldItemMainhand() != null && (ctx.getServerHandler().playerEntity.getHeldItemMainhand().getItem() instanceof ItemGun || ctx.getServerHandler().playerEntity.getHeldItemMainhand().getItem() instanceof ItemGun))
                     {
                         GunHandler.shooting.add(ctx.getServerHandler().playerEntity);
                     } else

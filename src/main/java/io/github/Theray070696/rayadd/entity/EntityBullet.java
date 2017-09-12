@@ -1,7 +1,5 @@
 package io.github.Theray070696.rayadd.entity;
 
-import java.util.List;
-
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import io.github.Theray070696.rayadd.RaysAdditions;
@@ -9,10 +7,12 @@ import io.github.Theray070696.rayadd.audio.SoundHandler;
 import io.github.Theray070696.rayadd.configuration.ConfigHandler;
 import io.github.Theray070696.rayadd.gun.GunHandler;
 import io.github.Theray070696.rayadd.gun.GunTools;
-import io.github.Theray070696.rayadd.item.gun.ItemBullet;
 import io.github.Theray070696.rayadd.item.gun.ItemGun;
+import io.github.Theray070696.rayadd.item.gun.ItemGunMinigun;
+import io.github.Theray070696.rayadd.item.gun.ItemGunSniper;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.IMob;
@@ -23,11 +23,11 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.*;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
-
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public abstract class EntityBullet extends Entity implements IEntityAdditionalSpawnData
 {
@@ -59,14 +59,14 @@ public abstract class EntityBullet extends Entity implements IEntityAdditionalSp
     public EntityBullet(World world)
     {
         super(world);
-        soundRangeFactor = 8F;
-        serverSoundPlayed = false;
-        xTile = -1;
-        yTile = -1;
-        zTile = -1;
-        inTile = null;
-        inGround = false;
-        timeInAir = 0;
+        this.soundRangeFactor = 8F;
+        this.serverSoundPlayed = false;
+        this.xTile = -1;
+        this.yTile = -1;
+        this.zTile = -1;
+        this.inTile = null;
+        this.inGround = false;
+        this.timeInAir = 0;
         setSize(0.0625F, 0.03125F);
     }
 
@@ -74,26 +74,26 @@ public abstract class EntityBullet extends Entity implements IEntityAdditionalSp
     {
         this(world);
         setPosition(d, d1, d2);
-        serverSpawned = true;
+        this.serverSpawned = true;
     }
 
     public abstract void playServerSound(World world);
 
-    public EntityBullet(World world, Entity entity, ItemGun itemGun, ItemBullet itemBullet)
+    public EntityBullet(World world, Entity entity, ItemGun itemgun)
     {
         this(world);
-        owner = entity;
-        damage = itemBullet.damage;
+        this.owner = entity;
+        this.damage = itemgun.damage;
 
         setLocationAndAngles(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, entity.rotationYaw, entity.rotationPitch);
 
-        posX -= MathHelper.cos((rotationYaw / 180F) * (float)Math.PI) * 0.16F;
-        posY -= 0.1D;
-        posZ -= MathHelper.sin((rotationYaw / 180F) * (float)Math.PI) * 0.16F;
+        this.posX -= MathHelper.cos((this.rotationYaw / 180F) * (float) Math.PI) * 0.16F;
+        this.posY -= 0.1D;
+        this.posZ -= MathHelper.sin((this.rotationYaw / 180F) * (float) Math.PI) * 0.16F;
 
-        setPosition(posX, posY, posZ);
+        setPosition(this.posX, this.posY, this.posZ);
 
-        float f7 = itemGun.spread;
+        float f7 = itemgun.spread;
 
         if(entity instanceof EntityLiving)
         {
@@ -103,58 +103,58 @@ public abstract class EntityBullet extends Entity implements IEntityAdditionalSp
             {
                 f7 *= 2.0F;
 
-                /*if(itemGun instanceof ItemGunMinigun)
+                if(itemgun instanceof ItemGunMinigun)
                 {
                     f7 *= 2.0F;
-                }*/
+                }
             }
 
             if(!entity.onGround)
             {
                 f7 *= 2.0F;
 
-                /*if(itemGun instanceof ItemGunMinigun)
+                if(itemgun instanceof ItemGunMinigun)
                 {
                     f7 *= 2.0F;
-                }*/
+                }
             }
 
-            /*if((entity instanceof EntityPlayer) && (itemGun instanceof ItemGunSniper))
+            if((entity instanceof EntityPlayer) && (itemgun instanceof ItemGunSniper))
             {
-                EntityPlayer entityplayer = (EntityPlayer)entity;
+                EntityPlayer entityplayer = (EntityPlayer) entity;
 
                 if(flag)
                 {
-                    f7 = (float)(f7 + 0.25D);
+                    f7 = (float) (f7 + 0.25D);
                 }
 
                 if(!entity.onGround)
                 {
-                    f7 = (float)(f7 + 0.25D);
+                    f7 = (float) (f7 + 0.25D);
                 }
 
                 if(!entityplayer.isSneaking())
                 {
-                    f7 = (float)(f7 + 0.25D);
+                    f7 = (float) (f7 + 0.25D);
                 }
 
                 if(!GunHandler.getSniperZoomedIn(entityplayer))
                 {
                     f7 = 8F;
                 }
-            }*/
+            }
         }
 
         if(entity.isBeingRidden() && (entity instanceof EntityPlayer))
         {
-            owner = entity.getControllingPassenger();
+            this.owner = entity.getControllingPassenger();
         }
 
-        motionX = -MathHelper.sin((rotationYaw / 180F) * (float)Math.PI) * MathHelper.cos((rotationPitch / 180F) * (float)Math.PI);
-        motionZ = MathHelper.cos((rotationYaw / 180F) * (float)Math.PI) * MathHelper.cos((rotationPitch / 180F) * (float)Math.PI);
-        motionY = -MathHelper.sin((rotationPitch / 180F) * (float)Math.PI);
+        this.motionX = -MathHelper.sin((this.rotationYaw / 180F) * (float) Math.PI) * MathHelper.cos((this.rotationPitch / 180F) * (float) Math.PI);
+        this.motionZ = MathHelper.cos((this.rotationYaw / 180F) * (float) Math.PI) * MathHelper.cos((this.rotationPitch / 180F) * (float) Math.PI);
+        this.motionY = -MathHelper.sin((this.rotationPitch / 180F) * (float) Math.PI);
 
-        setBulletHeading(motionX, motionY, motionZ, itemBullet.muzzleVelocity, f7 / 2.0F);
+        setBulletHeading(this.motionX, this.motionY, this.motionZ, itemgun.muzzleVelocity, f7 / 2.0F);
 
         double d2 = 0.0D;
         double d3 = 0.0D;
@@ -172,13 +172,15 @@ public abstract class EntityBullet extends Entity implements IEntityAdditionalSp
             d4 = entity.motionZ;
         }
 
-        motionX += d2;
-        motionY += d3;
-        motionZ += d4;
+        this.motionX += d2;
+        this.motionY += d3;
+        this.motionZ += d4;
     }
 
     @Override
-    protected void entityInit() {}
+    protected void entityInit()
+    {
+    }
 
     public void setBulletHeading(double d, double d1, double d2, float spread, float speed)
     {
@@ -188,24 +190,24 @@ public abstract class EntityBullet extends Entity implements IEntityAdditionalSp
         d1 /= f2;
         d2 /= f2;
 
-        d += rand.nextGaussian() * 0.005D * speed;
-        d1 += rand.nextGaussian() * 0.005D * speed;
-        d2 += rand.nextGaussian() * 0.005D * speed;
+        d += this.rand.nextGaussian() * 0.005D * speed;
+        d1 += this.rand.nextGaussian() * 0.005D * speed;
+        d2 += this.rand.nextGaussian() * 0.005D * speed;
 
         d *= spread;
         d1 *= spread;
         d2 *= spread;
 
-        motionX = d;
-        motionY = d1;
-        motionZ = d2;
+        this.motionX = d;
+        this.motionY = d1;
+        this.motionZ = d2;
 
         float f3 = MathHelper.sqrt_double(d * d + d2 * d2);
 
-        prevRotationYaw = rotationYaw = (float)((Math.atan2(d, d2) * 180D) / Math.PI);
-        prevRotationPitch = rotationPitch = (float)((Math.atan2(d1, f3) * 180D) / Math.PI);
+        this.prevRotationYaw = this.rotationYaw = (float) ((Math.atan2(d, d2) * 180D) / Math.PI);
+        this.prevRotationPitch = this.rotationPitch = (float) ((Math.atan2(d1, f3) * 180D) / Math.PI);
 
-        timeInTile = 0;
+        this.timeInTile = 0;
     }
 
     @Override
@@ -219,47 +221,47 @@ public abstract class EntityBullet extends Entity implements IEntityAdditionalSp
     {
         super.onUpdate();
 
-        canRender = true;
+        this.canRender = true;
 
-        if(serverSpawned && !serverSoundPlayed)
+        if(this.serverSpawned && !this.serverSoundPlayed)
         {
-            if(!worldObj.isRemote || owner != RaysAdditions.proxy.getClientPlayer())
+            if(!this.worldObj.isRemote || this.owner != RaysAdditions.proxy.getClientPlayer())
             {
-                playServerSound(worldObj);
-                serverSoundPlayed = true;
+                playServerSound(this.worldObj);
+                this.serverSoundPlayed = true;
             }
         }
 
-        if(timeInAir == 200)
+        if(this.timeInAir == 200)
         {
             setEntityDead();
         }
 
-        if(prevRotationPitch == 0.0F && prevRotationYaw == 0.0F)
+        if(this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F)
         {
-            float f = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
+            float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
 
-            prevRotationYaw = rotationYaw = (float)((Math.atan2(motionX, motionZ) * 180D) / Math.PI);
-            prevRotationPitch = rotationPitch = (float)((Math.atan2(motionY, f) * 180D) / Math.PI);
+            this.prevRotationYaw = this.rotationYaw = (float) ((Math.atan2(this.motionX, this.motionZ) * 180D) / Math.PI);
+            this.prevRotationPitch = this.rotationPitch = (float) ((Math.atan2(this.motionY, f) * 180D) / Math.PI);
         }
 
-        if(inGround)
+        if(this.inGround)
         {
-            Block i = worldObj.getBlockState(new BlockPos(xTile, yTile, zTile)).getBlock();
+            Block i = this.worldObj.getBlockState(new BlockPos(this.xTile, this.yTile, this.zTile)).getBlock();
 
-            if(i != inTile)
+            if(i != this.inTile)
             {
-                inGround = false;
-                motionX *= rand.nextFloat() * 0.2F;
-                motionY *= rand.nextFloat() * 0.2F;
-                motionZ *= rand.nextFloat() * 0.2F;
-                timeInTile = 0;
-                timeInAir = 0;
+                this.inGround = false;
+                this.motionX *= this.rand.nextFloat() * 0.2F;
+                this.motionY *= this.rand.nextFloat() * 0.2F;
+                this.motionZ *= this.rand.nextFloat() * 0.2F;
+                this.timeInTile = 0;
+                this.timeInAir = 0;
             } else
             {
-                timeInTile++;
+                this.timeInTile++;
 
-                if(timeInTile == 200)
+                if(this.timeInTile == 200)
                 {
                     setEntityDead();
                 }
@@ -268,22 +270,23 @@ public abstract class EntityBullet extends Entity implements IEntityAdditionalSp
             }
         } else
         {
-            timeInAir++;
+            this.timeInAir++;
         }
 
-        Vec3d vec3d = new Vec3d(posX, posY, posZ);
-        Vec3d vec3d1 = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
-        RayTraceResult movingobjectposition = worldObj.rayTraceBlocks(vec3d, vec3d1, false, true, false);
-        vec3d = new Vec3d(posX, posY, posZ);
-        vec3d1 = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
+        Vec3d vec3d = new Vec3d(this.posX, this.posY, this.posZ);
+        Vec3d vec3d1 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+        RayTraceResult rayTraceResult = this.worldObj.rayTraceBlocks(vec3d, vec3d1, false, true, false);
+        vec3d = new Vec3d(this.posX, this.posY, this.posZ);
+        vec3d1 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
 
-        if(movingobjectposition != null)
+        if(rayTraceResult != null)
         {
-            vec3d1 = new Vec3d(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
+            vec3d1 = new Vec3d(rayTraceResult.hitVec.xCoord, rayTraceResult.hitVec.yCoord, rayTraceResult.hitVec.zCoord);
         }
 
         Entity entity = null;
-        List list = worldObj.getEntitiesInAABBexcluding(this, getEntityBoundingBox().addCoord(motionX, motionY, motionZ).expandXyz(1.0D), Predicates.and(new Predicate[] {EntitySelectors.NOT_SPECTATING, EntitySelectors.IS_ALIVE, new Predicate<Entity>()
+        List list = this.worldObj.getEntitiesInAABBexcluding(this, getEntityBoundingBox().addCoord(this.motionX, this.motionY, this.motionZ)
+                .expandXyz(1.0D), Predicates.and(new Predicate[]{EntitySelectors.NOT_SPECTATING, EntitySelectors.IS_ALIVE, new Predicate<Entity>()
         {
             public boolean apply(@Nullable Entity p_apply_1_)
             {
@@ -292,24 +295,25 @@ public abstract class EntityBullet extends Entity implements IEntityAdditionalSp
         }}));
         double d = 0.0D;
 
-        for(int j = 0; j < list.size(); j++)
+        for(Object aList : list)
         {
-            Entity entity1 = (Entity) list.get(j);
+            Entity entity1 = (Entity) aList;
 
-            if(!entity1.canBeCollidedWith() || (entity1 == owner || owner != null && entity1 == owner.getRidingEntity() || owner != null && owner.getControllingPassenger() == entity1) && timeInAir < 5 || serverSpawned)
+            if(!entity1.canBeCollidedWith() || (entity1 == this.owner || this.owner != null && entity1 == this.owner.getRidingEntity() || this
+                    .owner != null && this.owner.getControllingPassenger() == entity1) && this.timeInAir < 5 || this.serverSpawned)
             {
                 continue;
             }
 
-            AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expandXyz(0.3F);
-            RayTraceResult movingobjectposition1 = axisalignedbb.calculateIntercept(vec3d, vec3d1);
+            AxisAlignedBB entityBoundingBox = entity1.getEntityBoundingBox().expandXyz(0.3F);
+            RayTraceResult rayTraceResult1 = entityBoundingBox.calculateIntercept(vec3d, vec3d1);
 
-            if(movingobjectposition1 == null)
+            if(rayTraceResult1 == null)
             {
                 continue;
             }
 
-            double d1 = vec3d.distanceTo(movingobjectposition1.hitVec);
+            double d1 = vec3d.distanceTo(rayTraceResult1.hitVec);
 
             if(d1 < d || d == 0.0D)
             {
@@ -320,111 +324,107 @@ public abstract class EntityBullet extends Entity implements IEntityAdditionalSp
 
         if(entity != null)
         {
-            movingobjectposition = new RayTraceResult(entity);
+            rayTraceResult = new RayTraceResult(entity);
         }
 
-        if(movingobjectposition != null)
+        if(rayTraceResult != null)
         {
             Block k = null;
-            if(movingobjectposition.getBlockPos() != null)
+            if(rayTraceResult.getBlockPos() != null)
             {
-                k = worldObj.getBlockState(movingobjectposition.getBlockPos()).getBlock();
+                k = worldObj.getBlockState(rayTraceResult.getBlockPos()).getBlock();
             }
 
-            if(movingobjectposition.entityHit != null || (k != null && !k.equals(Blocks.TALLGRASS)))
+            if(rayTraceResult.entityHit != null || (k != null && !k.equals(Blocks.TALLGRASS)))
             {
-                if(movingobjectposition.entityHit != null)
+                if(rayTraceResult.entityHit != null)
                 {
-                    int l = damage;
+                    int l = this.damage;
 
-                    if((owner instanceof IMob) && (movingobjectposition.entityHit instanceof EntityPlayer))
+                    if((this.owner instanceof IMob) && (rayTraceResult.entityHit instanceof EntityPlayer))
                     {
-                        if(worldObj.getDifficulty() == EnumDifficulty.PEACEFUL)
+                        if(this.worldObj.getDifficulty() == EnumDifficulty.PEACEFUL)
                         {
                             l = 0;
                         }
 
-                        if(worldObj.getDifficulty() == EnumDifficulty.EASY)
+                        if(this.worldObj.getDifficulty() == EnumDifficulty.EASY)
                         {
                             l = l / 3 + 1;
                         }
 
-                        if(worldObj.getDifficulty() == EnumDifficulty.HARD)
+                        if(this.worldObj.getDifficulty() == EnumDifficulty.HARD)
                         {
                             l = (l * 3) / 2;
                         }
                     }
 
-                    if(movingobjectposition.entityHit instanceof EntityLiving)
+                    if(rayTraceResult.entityHit instanceof EntityLiving)
                     {
-                        GunTools.attackEntityIgnoreDelay((EntityLiving) movingobjectposition.entityHit, DamageSource.causeThrownDamage(this, owner), l);
+                        GunTools.attackEntityIgnoreDelay((EntityLiving) rayTraceResult.entityHit, DamageSource.causeThrownDamage(this, owner), l);
                     } else
                     {
-                        movingobjectposition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, owner), l);
+                        rayTraceResult.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, owner), l);
                     }
                 } else
                 {
-                    BlockPos blockPos = movingobjectposition.getBlockPos();
-                    xTile = blockPos.getX();
-                    yTile = blockPos.getY();
-                    zTile = blockPos.getZ();
+                    BlockPos blockPos = rayTraceResult.getBlockPos();
+                    this.xTile = blockPos.getX();
+                    this.yTile = blockPos.getY();
+                    this.zTile = blockPos.getZ();
 
-                    inTile = k;
+                    this.inTile = k;
 
-                    motionX = (float) (movingobjectposition.hitVec.xCoord - posX);
-                    motionY = (float) (movingobjectposition.hitVec.yCoord - posY);
-                    motionZ = (float) (movingobjectposition.hitVec.zCoord - posZ);
+                    this.motionX = (float) (rayTraceResult.hitVec.xCoord - this.posX);
+                    this.motionY = (float) (rayTraceResult.hitVec.yCoord - this.posY);
+                    this.motionZ = (float) (rayTraceResult.hitVec.zCoord - this.posZ);
 
-                    float f2 = MathHelper.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ);
+                    float f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
 
-                    posX -= (motionX / f2) * 0.05D;
-                    posY -= (motionY / f2) * 0.05D;
-                    posZ -= (motionZ / f2) * 0.05D;
-                    inGround = true;
+                    this.posX -= (this.motionX / f2) * 0.05D;
+                    this.posY -= (this.motionY / f2) * 0.05D;
+                    this.posZ -= (this.motionZ / f2) * 0.05D;
+                    this.inGround = true;
 
-                    if(ConfigHandler.bulletsDestroyGlass && (inTile == Blocks.GLASS || inTile == Blocks.GLASS_PANE || inTile == Blocks.STAINED_GLASS || inTile == Blocks.STAINED_GLASS_PANE))
+                    if(ConfigHandler.bulletsDestroyGlass && (this.inTile == Blocks.GLASS || this.inTile == Blocks.GLASS_PANE || this.inTile ==
+                            Blocks.STAINED_GLASS || this.inTile == Blocks.STAINED_GLASS_PANE || this.inTile.getDefaultState().getMaterial().equals
+                            (Material.GLASS)))
                     {
-                        /*Block block;
-
-                        if(inTile == Blocks.GLASS)
-                        {
-                            block = Blocks.GLASS;
-                        } else
-                        {
-                            block = Blocks.GLASS_PANE;
-                        }*/
-
-                        worldObj.destroyBlock(blockPos, false);
-                        //WarTools.minecraft.effectRenderer.addBlockDestroyEffects(blockPos, block.getDefaultState());
-                        //worldObj.playSound(null, xTile + 0.5F, yTile + 0.5F, zTile + 0.5F, block.getSoundType().getBreakSound(), SoundCategory.BLOCKS, (block.getSoundType().getVolume() + 1.0F) / 2.0F, block.getSoundType().getPitch() * 0.8F);
-                        //WarTools.minecraft.sndManager.playSound(block.stepSound.getBreakSound(), (float)xTile + 0.5F, (float)yTile + 0.5F, (float)zTile + 0.5F, (block.stepSound.getVolume() + 1.0F) / 2.0F, block.stepSound.getPitch() * 0.8F);
-                        //worldObj.setBlockToAir(new BlockPos(xTile, yTile, zTile));
-                        //block.onBlockDestroyedByPlayer(worldObj, xTile, yTile, zTile, worldObj.getBlockMetadata(xTile, yTile, zTile));
+                        this.worldObj.destroyBlock(blockPos, false);
                     }
                 }
 
-                //worldObj.playSoundAtEntity(this, "rayadd:gun.impact", 0.2F, 1.0F / (rand.nextFloat() * 0.1F + 0.95F));
-                SoundHandler.playSoundName("rayadd:gun.impact", worldObj, SoundCategory.PLAYERS, this.getPosition(), 0.2F, 1.0F / (rand.nextFloat() * 0.1F + 0.95F));
+                SoundHandler.playSoundName("rayadd:gun.impact", this.worldObj, SoundCategory.PLAYERS, this.getPosition(), 0.2F, 1.0F / (rand
+                        .nextFloat() * 0.1F + 0.95F));
                 setEntityDead();
             }
         }
 
-        posX += motionX;
-        posY += motionY;
-        posZ += motionZ;
-        float f1 = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
-        rotationYaw = (float)((Math.atan2(motionX, motionZ) * 180D) / Math.PI);
+        this.posX += this.motionX;
+        this.posY += this.motionY;
+        this.posZ += this.motionZ;
+        float f1 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+        this.rotationYaw = (float) ((Math.atan2(this.motionX, this.motionZ) * 180D) / Math.PI);
 
-        for(rotationPitch = (float)((Math.atan2(motionY, f1) * 180D) / Math.PI); rotationPitch - prevRotationPitch < -180F; prevRotationPitch -= 360F) {}
+        for(this.rotationPitch = (float) ((Math.atan2(this.motionY, f1) * 180D) / Math.PI); this.rotationPitch - this.prevRotationPitch < -180F;
+            this.prevRotationPitch -= 360F)
+        {
+        }
 
-        for(; rotationPitch - prevRotationPitch >= 180F; prevRotationPitch += 360F) {}
+        for(; this.rotationPitch - this.prevRotationPitch >= 180F; this.prevRotationPitch += 360F)
+        {
+        }
 
-        for(; rotationYaw - prevRotationYaw < -180F; prevRotationYaw -= 360F) {}
+        for(; this.rotationYaw - this.prevRotationYaw < -180F; this.prevRotationYaw -= 360F)
+        {
+        }
 
-        for(; rotationYaw - prevRotationYaw >= 180F; prevRotationYaw += 360F) {}
+        for(; this.rotationYaw - prevRotationYaw >= 180F; this.prevRotationYaw += 360F)
+        {
+        }
 
-        rotationPitch = prevRotationPitch + (rotationPitch - prevRotationPitch) * 0.2F;
-        rotationYaw = prevRotationYaw + (rotationYaw - prevRotationYaw) * 0.2F;
+        this.rotationPitch = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * 0.2F;
+        this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
         float f3 = 1.0F;
         float f5 = 0.0F;
 
@@ -433,56 +433,56 @@ public abstract class EntityBullet extends Entity implements IEntityAdditionalSp
             for(int i1 = 0; i1 < 4; i1++)
             {
                 float f6 = 0.25F;
-                worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, posX - motionX * (double)f6, posY - motionY * (double)f6, posZ - motionZ * (double)f6, motionX, motionY, motionZ);
+                this.worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX - this.motionX * (double) f6, this.posY - this.motionY * (double) f6, this.posZ - this.motionZ * (double) f6, this.motionX, this.motionY, this.motionZ);
             }
 
             f3 = 0.8F;
             f5 = 0.03F;
         }
 
-        motionX *= f3;
-        motionY *= f3;
-        motionZ *= f3;
-        motionY -= f5;
-        setPosition(posX, posY, posZ);
+        this.motionX *= f3;
+        this.motionY *= f3;
+        this.motionZ *= f3;
+        this.motionY -= f5;
+        setPosition(this.posX, this.posY, this.posZ);
     }
 
     @Override
-    public void writeEntityToNBT(NBTTagCompound nbttagcompound)
+    public void writeEntityToNBT(NBTTagCompound tagCompound)
     {
-        nbttagcompound.setShort("xTile", (short)xTile);
-        nbttagcompound.setShort("yTile", (short)yTile);
-        nbttagcompound.setShort("zTile", (short)zTile);
+        tagCompound.setShort("xTile", (short) this.xTile);
+        tagCompound.setShort("yTile", (short) this.yTile);
+        tagCompound.setShort("zTile", (short) this.zTile);
         ResourceLocation resourcelocation = (ResourceLocation) Block.REGISTRY.getNameForObject(this.inTile);
-        nbttagcompound.setString("inTile", resourcelocation == null ? "" : resourcelocation.toString());
-        nbttagcompound.setByte("inGround", (byte)(inGround ? 1 : 0));
+        tagCompound.setString("inTile", resourcelocation == null ? "" : resourcelocation.toString());
+        tagCompound.setByte("inGround", (byte) (this.inGround ? 1 : 0));
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound nbttagcompound)
+    public void readEntityFromNBT(NBTTagCompound tagCompound)
     {
-        xTile = nbttagcompound.getShort("xTile");
-        yTile = nbttagcompound.getShort("yTile");
-        zTile = nbttagcompound.getShort("zTile");
-        if(nbttagcompound.hasKey("inTile", 8))
+        this.xTile = tagCompound.getShort("xTile");
+        this.yTile = tagCompound.getShort("yTile");
+        this.zTile = tagCompound.getShort("zTile");
+        if(tagCompound.hasKey("inTile", 8))
         {
-            inTile = Block.getBlockFromName(nbttagcompound.getString("inTile"));
+            this.inTile = Block.getBlockFromName(tagCompound.getString("inTile"));
         } else
         {
-            inTile = Block.getBlockById(nbttagcompound.getByte("inTile") & 255);
+            this.inTile = Block.getBlockById(tagCompound.getByte("inTile") & 255);
         }
-        inGround = nbttagcompound.getByte("inGround") == 1;
+        this.inGround = tagCompound.getByte("inGround") == 1;
     }
 
     @Override
     public void writeSpawnData(ByteBuf data)
     {
-        if(owner == null)
+        if(this.owner == null)
         {
             ByteBufUtils.writeUTF8String(data, "null");
         } else
         {
-            ByteBufUtils.writeUTF8String(data, owner.getName());
+            ByteBufUtils.writeUTF8String(data, this.owner.getName());
         }
     }
 
@@ -493,11 +493,11 @@ public abstract class EntityBullet extends Entity implements IEntityAdditionalSp
         {
             String name = ByteBufUtils.readUTF8String(data);
 
-            for(Object obj : worldObj.playerEntities)
+            for(Object obj : this.worldObj.playerEntities)
             {
                 if(((EntityPlayer) obj).getName().equals(name))
                 {
-                    owner = (EntityPlayer) obj;
+                    this.owner = (EntityPlayer) obj;
                 }
             }
         } catch(Exception e)
@@ -509,6 +509,6 @@ public abstract class EntityBullet extends Entity implements IEntityAdditionalSp
     public void setEntityDead()
     {
         super.setDead();
-        owner = null;
+        this.owner = null;
     }
 }

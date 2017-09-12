@@ -1,7 +1,5 @@
 package io.github.Theray070696.rayadd.entity;
 
-import java.util.List;
-
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import io.github.Theray070696.rayadd.audio.SoundHandler;
@@ -21,6 +19,7 @@ import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class EntityBulletCasing extends Entity
 {
@@ -38,26 +37,26 @@ public class EntityBulletCasing extends Entity
     public EntityBulletCasing(World world)
     {
         super(world);
-        droppedItem = ModItems.itemBulletCasing;
-        xTile = -1;
-        yTile = -1;
-        zTile = -1;
-        inTile = null;
-        inGround = false;
-        timeInAir = 0;
+        this.droppedItem = ModItems.itemBulletCasing;
+        this.xTile = -1;
+        this.yTile = -1;
+        this.zTile = -1;
+        this.inTile = null;
+        this.inGround = false;
+        this.timeInAir = 0;
         setSize(0.0625F, 0.03125F);
     }
 
     public EntityBulletCasing(World world, double d, double d1, double d2)
     {
         super(world);
-        droppedItem = ModItems.itemBulletCasing;
-        xTile = -1;
-        yTile = -1;
-        zTile = -1;
-        inTile = null;
-        inGround = false;
-        timeInAir = 0;
+        this.droppedItem = ModItems.itemBulletCasing;
+        this.xTile = -1;
+        this.yTile = -1;
+        this.zTile = -1;
+        this.inTile = null;
+        this.inGround = false;
+        this.timeInAir = 0;
         setSize(0.0625F, 0.03125F);
         setPosition(d, d1, d2);
     }
@@ -65,51 +64,53 @@ public class EntityBulletCasing extends Entity
     public EntityBulletCasing(World world, Entity entity)
     {
         super(world);
-        droppedItem = ModItems.itemBulletCasing;
-        xTile = -1;
-        yTile = -1;
-        zTile = -1;
-        inTile = null;
-        inGround = false;
-        timeInAir = 0;
-        owner = entity;
-        createdByPlayer = owner instanceof EntityPlayer;
+        this.droppedItem = ModItems.itemBulletCasing;
+        this.xTile = -1;
+        this.yTile = -1;
+        this.zTile = -1;
+        this.inTile = null;
+        this.inGround = false;
+        this.timeInAir = 0;
+        this.owner = entity;
+        this.createdByPlayer = owner instanceof EntityPlayer;
         setSize(0.0625F, 0.03125F);
-        setLocationAndAngles(entity.posX, entity.posY + (double)entity.getEyeHeight(), entity.posZ, entity.rotationYaw, entity.rotationPitch);
+        setLocationAndAngles(entity.posX, entity.posY + (double) entity.getEyeHeight(), entity.posZ, entity.rotationYaw, entity.rotationPitch);
 
         if(entity instanceof EntityPlayer)
         {
-            posX -= MathHelper.cos((rotationYaw / 180F) * (float)Math.PI) * 0.16F;
-            posY -= 0.10000000000000001D;
-            posZ -= MathHelper.sin((rotationYaw / 180F) * (float)Math.PI) * 0.16F;
+            this.posX -= MathHelper.cos((this.rotationYaw / 180F) * (float) Math.PI) * 0.16F;
+            this.posY -= 0.10000000000000001D;
+            this.posZ -= MathHelper.sin((this.rotationYaw / 180F) * (float) Math.PI) * 0.16F;
         }
 
-        rotationYaw += 90F;
+        this.rotationYaw += 90F;
 
-        if(rotationYaw > 360F)
+        if(this.rotationYaw > 360F)
         {
-            rotationYaw -= 360F;
+            this.rotationYaw -= 360F;
         }
 
-        rotationPitch -= 30F;
+        this.rotationPitch -= 30F;
 
-        if(rotationPitch < -90F)
+        if(this.rotationPitch < -90F)
         {
-            rotationPitch = (rotationPitch + 180F) * -1F;
-            rotationYaw *= -1F;
+            this.rotationPitch = (this.rotationPitch + 180F) * -1F;
+            this.rotationYaw *= -1F;
         }
 
-        posX -= MathHelper.cos((rotationYaw / 180F) * (float)Math.PI) * 0.16F;
-        posY -= 0.10000000000000001D;
-        posZ -= MathHelper.sin((rotationYaw / 180F) * (float)Math.PI) * 0.16F;
-        setPosition(posX, posY, posZ);
-        motionX = -MathHelper.sin((rotationYaw / 180F) * (float)Math.PI) * MathHelper.cos((rotationPitch / 180F) * (float)Math.PI);
-        motionZ = MathHelper.cos((rotationYaw / 180F) * (float)Math.PI) * MathHelper.cos((rotationPitch / 180F) * (float)Math.PI);
-        motionY = -MathHelper.sin((rotationPitch / 180F) * (float)Math.PI);
-        setPositionAndRotation(motionX, motionY, motionZ, 0.25F, 1.0F);
+        this.posX -= MathHelper.cos((this.rotationYaw / 180F) * (float) Math.PI) * 0.16F;
+        this.posY -= 0.10000000000000001D;
+        this.posZ -= MathHelper.sin((this.rotationYaw / 180F) * (float) Math.PI) * 0.16F;
+        this.setPosition(this.posX, this.posY, this.posZ);
+        this.motionX = -MathHelper.sin((this.rotationYaw / 180F) * (float) Math.PI) * MathHelper.cos((this.rotationPitch / 180F) * (float) Math.PI);
+        this.motionZ = MathHelper.cos((this.rotationYaw / 180F) * (float) Math.PI) * MathHelper.cos((this.rotationPitch / 180F) * (float) Math.PI);
+        this.motionY = -MathHelper.sin((this.rotationPitch / 180F) * (float) Math.PI);
+        this.setPositionAndRotation(this.motionX, this.motionY, this.motionZ, 0.25F, 1.0F);
     }
 
-    protected void entityInit() {}
+    protected void entityInit()
+    {
+    }
 
     /**
      * Checks if the entity is in range to render by using the past in distance and comparing it to its average edge
@@ -129,19 +130,19 @@ public class EntityBulletCasing extends Entity
         d /= f2;
         d1 /= f2;
         d2 /= f2;
-        d += rand.nextGaussian() * 0.0074999999999999997D * (double)f1;
-        d1 += rand.nextGaussian() * 0.0074999999999999997D * (double)f1;
-        d2 += rand.nextGaussian() * 0.0074999999999999997D * (double)f1;
+        d += this.rand.nextGaussian() * 0.0074999999999999997D * (double) f1;
+        d1 += this.rand.nextGaussian() * 0.0074999999999999997D * (double) f1;
+        d2 += this.rand.nextGaussian() * 0.0074999999999999997D * (double) f1;
         d *= f;
         d1 *= f;
         d2 *= f;
-        motionX = d;
-        motionY = d1;
-        motionZ = d2;
+        this.motionX = d;
+        this.motionY = d1;
+        this.motionZ = d2;
         float f3 = MathHelper.sqrt_double(d * d + d2 * d2);
-        prevRotationYaw = rotationYaw = (float)((Math.atan2(d, d2) * 180D) / Math.PI);
-        prevRotationPitch = rotationPitch = (float)((Math.atan2(d1, f3) * 180D) / Math.PI);
-        timeInTile = 0;
+        this.prevRotationYaw = this.rotationYaw = (float) ((Math.atan2(d, d2) * 180D) / Math.PI);
+        this.prevRotationPitch = this.rotationPitch = (float) ((Math.atan2(d1, f3) * 180D) / Math.PI);
+        this.timeInTile = 0;
     }
 
     /**
@@ -151,78 +152,79 @@ public class EntityBulletCasing extends Entity
     {
         super.onUpdate();
 
-        if(inGround)
+        if(this.inGround)
         {
-            if(!(owner instanceof EntityPlayer) && !worldObj.isRemote)
+            if(!(this.owner instanceof EntityPlayer) && !this.worldObj.isRemote)
             {
                 setEntityDead();
             }
 
-            Block i = worldObj.getBlockState(new BlockPos(xTile, yTile, zTile)).getBlock();
+            Block i = this.worldObj.getBlockState(new BlockPos(this.xTile, this.yTile, this.zTile)).getBlock();
 
-            if(i != inTile)
+            if(i != this.inTile)
             {
-                inGround = false;
-                motionX *= rand.nextFloat() * 0.2F;
-                motionY *= rand.nextFloat() * 0.2F;
-                motionZ *= rand.nextFloat() * 0.2F;
-                timeInTile = 0;
-                timeInAir = 0;
+                this.inGround = false;
+                this.motionX *= this.rand.nextFloat() * 0.2F;
+                this.motionY *= this.rand.nextFloat() * 0.2F;
+                this.motionZ *= this.rand.nextFloat() * 0.2F;
+                this.timeInTile = 0;
+                this.timeInAir = 0;
             } else
             {
-                timeInTile++;
+                this.timeInTile++;
 
-                if(timeInTile == 1200)
+                if(this.timeInTile == 1200)
                 {
-                    setEntityDead();
+                    this.setEntityDead();
                 }
 
                 return;
             }
         } else
         {
-            timeInAir++;
+            this.timeInAir++;
         }
 
-        Vec3d vec3d = new Vec3d(posX, posY, posZ);
-        Vec3d vec3d1 = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
-        RayTraceResult movingobjectposition = worldObj.rayTraceBlocks(vec3d, vec3d1, false, true, false);
-        vec3d = new Vec3d(posX, posY, posZ);
-        vec3d1 = new Vec3d(posX + motionX, posY + motionY, posZ + motionZ);
+        Vec3d vec3d = new Vec3d(this.posX, this.posY, this.posZ);
+        Vec3d vec3d1 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+        RayTraceResult rayTraceResult = worldObj.rayTraceBlocks(vec3d, vec3d1, false, true, false);
+        vec3d = new Vec3d(this.posX, this.posY, this.posZ);
+        vec3d1 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
 
-        if(movingobjectposition != null)
+        if(rayTraceResult != null)
         {
-            vec3d1 = new Vec3d(movingobjectposition.hitVec.xCoord, movingobjectposition.hitVec.yCoord, movingobjectposition.hitVec.zCoord);
+            vec3d1 = new Vec3d(rayTraceResult.hitVec.xCoord, rayTraceResult.hitVec.yCoord, rayTraceResult.hitVec.zCoord);
         }
 
         Entity entity = null;
-        List list = worldObj.getEntitiesInAABBexcluding(this, getEntityBoundingBox().addCoord(motionX, motionY, motionZ).expandXyz(1.0D), Predicates.and(new Predicate[] {EntitySelectors.NOT_SPECTATING, EntitySelectors.IS_ALIVE, new Predicate<Entity>()
-        {
-            public boolean apply(@Nullable Entity p_apply_1_)
-            {
-                return p_apply_1_.canBeCollidedWith();
-            }
-        }}));
+        List list = this.worldObj.getEntitiesInAABBexcluding(this, getEntityBoundingBox().addCoord(motionX, motionY, motionZ).expandXyz(1.0D),
+                Predicates.and(EntitySelectors.NOT_SPECTATING, EntitySelectors.IS_ALIVE, new Predicate<Entity>()
+                {
+                    public boolean apply(@Nullable Entity p_apply_1_)
+                    {
+                        return p_apply_1_.canBeCollidedWith();
+                    }
+                }));
         double d = 0.0D;
 
-        for(int j = 0; j < list.size(); j++)
+        for(Object aList : list)
         {
-            Entity entity1 = (Entity)list.get(j);
+            Entity entity1 = (Entity) aList;
 
-            if(!entity1.canBeCollidedWith() || entity1 == owner && timeInAir < 5)
+            if(!entity1.canBeCollidedWith() || entity1 == this.owner && this.timeInAir < 5)
             {
                 continue;
             }
 
-            AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expandXyz(0.3F);
-            RayTraceResult movingobjectposition1 = axisalignedbb.calculateIntercept(vec3d, vec3d1);
+            AxisAlignedBB entityBoundingBox = entity1.getEntityBoundingBox().expandXyz(0.3F);
+            RayTraceResult rayTraceResult1 = entityBoundingBox.calculateIntercept(vec3d, vec3d1);
 
-            if(movingobjectposition1 == null)
+            if(rayTraceResult1 == null)
             {
                 continue;
             }
 
-            double d2 = vec3d.distanceTo(movingobjectposition1.hitVec);
+            double d2 = vec3d.distanceTo(rayTraceResult1.hitVec);
 
             if(d2 < d || d == 0.0D)
             {
@@ -233,45 +235,54 @@ public class EntityBulletCasing extends Entity
 
         if(entity != null)
         {
-            movingobjectposition = new RayTraceResult(entity);
+            rayTraceResult = new RayTraceResult(entity);
         }
 
-        if(movingobjectposition != null && movingobjectposition.entityHit == null)
+        if(rayTraceResult != null && rayTraceResult.entityHit == null)
         {
-            BlockPos blockPos = movingobjectposition.getBlockPos();
-            xTile = blockPos.getX();
-            yTile = blockPos.getY();
-            zTile = blockPos.getZ();
+            BlockPos blockPos = rayTraceResult.getBlockPos();
+            this.xTile = blockPos.getX();
+            this.yTile = blockPos.getY();
+            this.zTile = blockPos.getZ();
 
-            inTile = worldObj.getBlockState(blockPos).getBlock();
+            this.inTile = this.worldObj.getBlockState(blockPos).getBlock();
 
-            motionX = (float) (movingobjectposition.hitVec.xCoord - posX);
-            motionY = (float) (movingobjectposition.hitVec.yCoord - posY);
-            motionZ = (float) (movingobjectposition.hitVec.zCoord - posZ);
-            float f = MathHelper.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ);
+            this.motionX = (float) (rayTraceResult.hitVec.xCoord - this.posX);
+            this.motionY = (float) (rayTraceResult.hitVec.yCoord - this.posY);
+            this.motionZ = (float) (rayTraceResult.hitVec.zCoord - this.posZ);
+            float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
             double d1 = 0.025000000000000001D;
-            posX -= (motionX / (double) f) * d1;
-            posY -= (motionY / (double) f) * d1;
-            posZ -= (motionZ / (double) f) * d1;
-            inGround = true;
+            this.posX -= (this.motionX / (double) f) * d1;
+            this.posY -= (this.motionY / (double) f) * d1;
+            this.posZ -= (this.motionZ / (double) f) * d1;
+            this.inGround = true;
         }
 
-        posX += motionX;
-        posY += motionY;
-        posZ += motionZ;
-        float f1 = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
-        rotationYaw = (float)((Math.atan2(motionX, motionZ) * 180D) / Math.PI);
+        this.posX += this.motionX;
+        this.posY += this.motionY;
+        this.posZ += this.motionZ;
+        float f1 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+        this.rotationYaw = (float) ((Math.atan2(this.motionX, this.motionZ) * 180D) / Math.PI);
 
-        for(rotationPitch = (float) ((Math.atan2(motionY, f1) * 180D) / Math.PI); rotationPitch - prevRotationPitch < -180F; prevRotationPitch -= 360F) {}
+        for(this.rotationPitch = (float) ((Math.atan2(this.motionY, f1) * 180D) / Math.PI); this.rotationPitch - this.prevRotationPitch < -180F;
+            this.prevRotationPitch -= 360F)
+        {
+        }
 
-        for(; rotationPitch - prevRotationPitch >= 180F; prevRotationPitch += 360F) {}
+        for(; this.rotationPitch - this.prevRotationPitch >= 180F; this.prevRotationPitch += 360F)
+        {
+        }
 
-        for(; rotationYaw - prevRotationYaw < -180F; prevRotationYaw -= 360F) {}
+        for(; this.rotationYaw - this.prevRotationYaw < -180F; this.prevRotationYaw -= 360F)
+        {
+        }
 
-        for(; rotationYaw - prevRotationYaw >= 180F; prevRotationYaw += 360F) {}
+        for(; this.rotationYaw - this.prevRotationYaw >= 180F; this.prevRotationYaw += 360F)
+        {
+        }
 
-        rotationPitch = prevRotationPitch + (rotationPitch - prevRotationPitch) * 0.2F;
-        rotationYaw = prevRotationYaw + (rotationYaw - prevRotationYaw) * 0.2F;
+        this.rotationPitch = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * 0.2F;
+        this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
         float f2 = 0.99F;
         float f4 = 0.1F;
 
@@ -280,17 +291,18 @@ public class EntityBulletCasing extends Entity
             for(int k = 0; k < 4; k++)
             {
                 float f5 = 0.25F;
-                worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, posX - motionX * (double) f5, posY - motionY * (double) f5, posZ - motionZ * (double) f5, motionX, motionY, motionZ);
+                this.worldObj.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX - this.motionX * (double) f5, this.posY - this.motionY *
+                        (double) f5, this.posZ - this.motionZ * (double) f5, this.motionX, this.motionY, this.motionZ);
             }
 
             f2 = 0.8F;
         }
 
-        motionX *= f2;
-        motionY *= f2;
-        motionZ *= f2;
-        motionY -= f4;
-        setPosition(posX, posY, posZ);
+        this.motionX *= f2;
+        this.motionY *= f2;
+        this.motionZ *= f2;
+        this.motionY -= f4;
+        setPosition(this.posX, this.posY, this.posZ);
     }
 
     /**
@@ -298,13 +310,13 @@ public class EntityBulletCasing extends Entity
      */
     public void writeEntityToNBT(NBTTagCompound nbttagcompound)
     {
-        nbttagcompound.setShort("xTile", (short) xTile);
-        nbttagcompound.setShort("yTile", (short) yTile);
-        nbttagcompound.setShort("zTile", (short) zTile);
+        nbttagcompound.setShort("xTile", (short) this.xTile);
+        nbttagcompound.setShort("yTile", (short) this.yTile);
+        nbttagcompound.setShort("zTile", (short) this.zTile);
         ResourceLocation resourcelocation = (ResourceLocation) Block.REGISTRY.getNameForObject(this.inTile);
         nbttagcompound.setString("inTile", resourcelocation == null ? "" : resourcelocation.toString());
-        nbttagcompound.setByte("inGround", (byte) (inGround ? 1 : 0));
-        nbttagcompound.setByte("createdByPlayer", (byte) (createdByPlayer ? 1 : 0));
+        nbttagcompound.setByte("inGround", (byte) (this.inGround ? 1 : 0));
+        nbttagcompound.setByte("createdByPlayer", (byte) (this.createdByPlayer ? 1 : 0));
     }
 
     /**
@@ -312,18 +324,18 @@ public class EntityBulletCasing extends Entity
      */
     public void readEntityFromNBT(NBTTagCompound nbttagcompound)
     {
-        xTile = nbttagcompound.getShort("xTile");
-        yTile = nbttagcompound.getShort("yTile");
-        zTile = nbttagcompound.getShort("zTile");
+        this.xTile = nbttagcompound.getShort("xTile");
+        this.yTile = nbttagcompound.getShort("yTile");
+        this.zTile = nbttagcompound.getShort("zTile");
         if(nbttagcompound.hasKey("inTile", 8))
         {
-            inTile = Block.getBlockFromName(nbttagcompound.getString("inTile"));
+            this.inTile = Block.getBlockFromName(nbttagcompound.getString("inTile"));
         } else
         {
-            inTile = Block.getBlockById(nbttagcompound.getByte("inTile") & 255);
+            this.inTile = Block.getBlockById(nbttagcompound.getByte("inTile") & 255);
         }
-        inGround = nbttagcompound.getByte("inGround") == 1;
-        createdByPlayer = nbttagcompound.getByte("createdByPlayer") == 1;
+        this.inGround = nbttagcompound.getByte("inGround") == 1;
+        this.createdByPlayer = nbttagcompound.getByte("createdByPlayer") == 1;
     }
 
     /**
@@ -331,15 +343,16 @@ public class EntityBulletCasing extends Entity
      */
     public void onCollideWithPlayer(EntityPlayer entityplayer)
     {
-        if(worldObj.isRemote)
+        if(this.worldObj.isRemote)
         {
             return;
         }
 
-        if(ConfigHandler.ammoRestrictions && droppedItem != null && createdByPlayer && timeInTile > 5 && inGround && entityplayer.inventory.addItemStackToInventory(new ItemStack(droppedItem, 1, 0)))
+        if(ConfigHandler.ammoRestrictions && this.droppedItem != null && this.createdByPlayer && this.timeInTile > 5 && this.inGround &&
+                entityplayer.inventory.addItemStackToInventory(new ItemStack(this.droppedItem, 1, 0)))
         {
-            //worldObj.playSoundAtEntity(this, "random.pop", 0.2F, ((rand.nextFloat() - rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
-            SoundHandler.playSoundName("random.pop", worldObj, SoundCategory.PLAYERS, this.getPosition(), 0.2F, ((rand.nextFloat() - rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
+            SoundHandler.playSoundName("random.pop", this.worldObj, SoundCategory.PLAYERS, this.getPosition(), 0.2F, ((this.rand.nextFloat() - this
+                    .rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
             entityplayer.onItemPickup(this, 1);
             setEntityDead();
         }
@@ -348,6 +361,6 @@ public class EntityBulletCasing extends Entity
     public void setEntityDead()
     {
         super.setDead();
-        owner = null;
+        this.owner = null;
     }
 }

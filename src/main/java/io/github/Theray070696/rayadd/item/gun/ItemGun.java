@@ -9,97 +9,104 @@ import io.github.Theray070696.rayadd.gun.GunHandler;
 import io.github.Theray070696.rayadd.gun.GunTools;
 import io.github.Theray070696.rayadd.item.ItemRayAdd;
 import io.github.Theray070696.rayadd.network.PacketRecoil;
-import io.github.Theray070696.rayadd.util.LogHelper;
-import io.github.Theray070696.raycore.util.Pair;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.List;
 
 public abstract class ItemGun extends ItemRayAdd
 {
     public String firingSound;
-    public ItemMag requiredMag;
+    public Item requiredBullet;
     public int useDelay;
+    public int numBullets;
+    public int damage;
+    public float muzzleVelocity;
     public float spread;
     public float recoil;
     public int soundDelay;
     public float soundRangeFactor;
     protected long lastSound;
     protected long lastEmptySound;
-    public ItemStack currentMag;
 
     public ItemGun()
     {
         super();
-        spread = 1.0F;
-        recoil = 1.0F;
-        soundDelay = -1;
-        soundRangeFactor = 4F;
-        lastSound = 0L;
-        lastEmptySound = 0L;
-        setMaxStackSize(1);
+        this.numBullets = 1;
+        this.damage = 0;
+        this.muzzleVelocity = 1.5F;
+        this.spread = 1.0F;
+        this.recoil = 1.0F;
+        this.soundDelay = -1;
+        this.soundRangeFactor = 4F;
+        this.lastSound = 0L;
+        this.lastEmptySound = 0L;
+        this.setMaxStackSize(1);
     }
-    
+
     @Override
     public void onUpdate(ItemStack stack, World world, Entity entity, int par4, boolean par5)
     {
-    	if(!world.isRemote)
-    	{
-    		if(!stack.hasTagCompound() || stack.getTagCompound() == null)
-    		{ 
-    			return;
-    		}
-    		
-    		if(stack.getTagCompound().getInteger("delay") > 0)
-    		{
-    		    NBTTagCompound tag = stack.getTagCompound();
+        if(!world.isRemote)
+        {
+            if(!stack.hasTagCompound() || stack.getTagCompound() == null)
+            {
+                return;
+            }
+
+            if(stack.getTagCompound().getInteger("delay") > 0)
+            {
+                NBTTagCompound tag = stack.getTagCompound();
                 tag.setInteger("delay", tag.getInteger("delay") - 1);
 
-    			stack.setTagCompound(tag);
-    		}
-    	}
+                stack.setTagCompound(tag);
+            }
+        }
     }
 
     public boolean fireBullet(World world, Entity entity, ItemStack itemstack)
     {
-        if(currentMag == null || !(currentMag.getItem() instanceof ItemMag) || ((ItemMag) currentMag.getItem()).getInventory() == null)
-        {
-            currentMag = GunHandler.handleReload(world, (EntityPlayer) entity, true);
-            return false;
-        }
-
         if(!GunHandler.reloadTimes.containsKey(entity))
         {
             int ammoUsed;
-            ItemBullet bulletUsed;
 
-            Pair<Integer, ItemBullet> pair = GunTools.useItemInMag(((ItemMag) currentMag.getItem()).getInventory(), requiredMag.bulletCaliber, !((EntityPlayer) entity).capabilities.isCreativeMode);
-
-            ammoUsed = pair.getA();
-            bulletUsed = pair.getB();
+            if(entity instanceof EntityPlayer)
+            {
+                boolean creative = ((EntityPlayer) entity).capabilities.isCreativeMode;
+                ammoUsed = GunTools.useItemInInventory((EntityPlayer) entity, this.requiredBullet, !creative);
+            } else
+            {
+                ammoUsed = 1;
+            }
 
             if(ammoUsed > 0)
             {
-                if(world.getWorldTime() - lastSound < 0L)
+                if(world.getWorldTime() - this.lastSound < 0L)
                 {
-                    lastSound = world.getWorldTime() - (long) soundDelay;
+                    this.lastSound = world.getWorldTime() - (long) this.soundDelay;
                 }
 
-                if(soundDelay == 0 || lastSound == 0L || world.getWorldTime() - lastSound > (long) soundDelay)
+                if(this.soundDelay == 0 || this.lastSound == 0L || world.getWorldTime() - lastSound > (long) this.soundDelay)
                 {
-                    SoundHandler.playSoundName(firingSound, entity.worldObj, SoundCategory.PLAYERS, entity.getPosition(), 1.0F, 1.0F / (itemRand.nextFloat() * 0.1F + 0.95F));
-                    lastSound = world.getWorldTime();
+                    SoundHandler.playSoundName(this.firingSound, entity.worldObj, SoundCategory.PLAYERS, entity.getPosition(), 1.0F, 1.0F /
+                            (itemRand.nextFloat() * 0.1F + 0.95F));
+                    this.lastSound = world.getWorldTime();
                 }
 
                 if(!world.isRemote)
                 {
-                    for(int j = 0; j < bulletUsed.numProjectiles; j++)
+                    for(int j = 0; j < this.numBullets; j++)
                     {
-                        EntityBullet bullet = getBulletEntity(world, entity, bulletUsed);
+                        EntityBullet bullet = getBulletEntity(world, entity);
 
                         if(bullet != null)
                         {
@@ -116,13 +123,13 @@ public abstract class ItemGun extends ItemRayAdd
 
                     if(entity instanceof EntityPlayerMP)
                     {
-                        RaysAdditions.network.sendTo(new PacketRecoil(recoil, recoil / 2), (EntityPlayerMP) entity);
+                        RaysAdditions.network.sendTo(new PacketRecoil(this.recoil, this.recoil / 2), (EntityPlayerMP) entity);
                     }
                 }
 
                 if(entity instanceof EntityPlayer)
                 {
-                    if(ammoUsed == 2 /*&& !(this instanceof ItemGunMinigun) && !(this instanceof ItemGunLaser)*/)
+                    if(ammoUsed == 2 && !(this instanceof ItemGunMinigun) /*&& !(this instanceof ItemGunLaser)*/)
                     {
                         GunHandler.handleReload(world, (EntityPlayer) entity, true);
                     }
@@ -131,10 +138,11 @@ public abstract class ItemGun extends ItemRayAdd
                 return true;
             }
 
-            if(lastEmptySound == 0L || world.getWorldTime() - lastEmptySound > 20L)
+            if(this.lastEmptySound == 0L || world.getWorldTime() - this.lastEmptySound > 20L)
             {
-                SoundHandler.playSoundName("rayadd:gun.empty", entity.worldObj, SoundCategory.PLAYERS, entity.getPosition(), 1.0F, 1.0F / (itemRand.nextFloat() * 0.1F + 0.95F));
-                lastEmptySound = world.getWorldTime();
+                SoundHandler.playSoundName("rayadd:gun.empty", entity.worldObj, SoundCategory.PLAYERS, entity.getPosition(), 1.0F, 1.0F / (itemRand
+                        .nextFloat() * 0.1F + 0.95F));
+                this.lastEmptySound = world.getWorldTime();
             }
         }
 
@@ -147,29 +155,57 @@ public abstract class ItemGun extends ItemRayAdd
         return true;
     }
 
-    public abstract EntityBullet getBulletEntity(World world, Entity entity, ItemBullet bullet);
+    public abstract EntityBullet getBulletEntity(World world, Entity entity);
 
     public abstract EntityBulletCasing getBulletCasingEntity(World world, Entity entity);
-    
+
     public static boolean canFire(ItemStack itemStack)
     {
-		if(!itemStack.hasTagCompound() || itemStack.getTagCompound() == null)
-		{ 
-			return true;
-		}
+        if(!itemStack.hasTagCompound() || itemStack.getTagCompound() == null)
+        {
+            return true;
+        }
 
-		return itemStack.getTagCompound().getInteger("delay") == 0;
+        return itemStack.getTagCompound().getInteger("delay") == 0;
     }
-    
+
     public static void addDelay(ItemStack itemStack)
     {
-		if(!itemStack.hasTagCompound() || itemStack.getTagCompound() == null)
-		{
-			itemStack.setTagCompound(new NBTTagCompound());
-		}
+        if(!itemStack.hasTagCompound() || itemStack.getTagCompound() == null)
+        {
+            itemStack.setTagCompound(new NBTTagCompound());
+        }
 
-		NBTTagCompound tag = itemStack.getTagCompound();
-		tag.setInteger("delay", ((ItemGun) itemStack.getItem()).useDelay);
-		itemStack.setTagCompound(tag);
+        NBTTagCompound tag = itemStack.getTagCompound();
+        tag.setInteger("delay", ((ItemGun) itemStack.getItem()).useDelay);
+        itemStack.setTagCompound(tag);
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void addInformation(ItemStack itemStack, EntityPlayer player, List<String> list, boolean advanced)
+    {
+        list.add("Uses " + I18n.format(this.requiredBullet.getUnlocalizedName() + ".name") + "s as ammo");
+        list.add("Damage: " + this.damage);
+
+        if(this.useDelay <= 0)
+        {
+            list.add("Insane fire rate");
+        } else if(this.useDelay == 1)
+        {
+            list.add("Very high fire rate");
+        } else if(this.useDelay >= 2 && this.useDelay < 4)
+        {
+            list.add("High fire rate");
+        } else if(this.useDelay >= 4 && this.useDelay < 10)
+        {
+            list.add("Medium fire rate");
+        } else if(this.useDelay >= 10 && this.useDelay < 25)
+        {
+            list.add("Low fire rate");
+        } else if(this.useDelay >= 25)
+        {
+            list.add("Very low fire rate");
+        }
     }
 }

@@ -1,7 +1,6 @@
 package io.github.Theray070696.rayadd.client.render;
 
 import io.github.Theray070696.rayadd.entity.EntityBullet;
-import io.github.Theray070696.rayadd.entity.classic.EntityBulletClassic;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.Render;
@@ -35,11 +34,11 @@ public class RenderBullet extends Render
         GL11.glRotatef((entityBullet.prevRotationYaw + (entityBullet.rotationYaw - entityBullet.prevRotationYaw) * f1) - 90F, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(entityBullet.prevRotationPitch + (entityBullet.rotationPitch - entityBullet.prevRotationPitch) * f1, 0.0F, 0.0F, 1.0F);
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer vertexbuffer = tessellator.getBuffer();
+        VertexBuffer vertexBuffer = tessellator.getBuffer();
         int i = 0;
         float f2 = 0.0F;
         float f3 = 0.5F;
-        float f4 = (float) (0 + i * 10) / 32F;
+        float f4 = (float) (i * 10) / 32F;
         float f5 = (float) (5 + i * 10) / 32F;
         float f6 = 0.0F;
         float f7 = 0.15625F;
@@ -51,44 +50,29 @@ public class RenderBullet extends Render
         GL11.glScalef(f10, f10, f10);
         GL11.glTranslatef(-4F, 0.0F, 0.0F);
         GL11.glNormal3f(f10, 0.0F, 0.0F);
-        vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        vertexbuffer.pos(-7D, -2D, -2D).tex(f6, f8).endVertex();
-        vertexbuffer.pos(-7D, -2D, 2D).tex(f7, f8).endVertex();
-        vertexbuffer.pos(-7D, 2D, 2D).tex(f7, f9).endVertex();
-        vertexbuffer.pos(-7D, 2D, -2D).tex(f6, f9).endVertex();
-        /*tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV(-7D, -2D, -2D, f6, f8);
-        tessellator.addVertexWithUV(-7D, -2D, 2D, f7, f8);
-        tessellator.addVertexWithUV(-7D, 2D, 2D, f7, f9);
-        tessellator.addVertexWithUV(-7D, 2D, -2D, f6, f9);*/
+        vertexBuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
+        vertexBuffer.pos(-7D, -2D, -2D).tex(f6, f8).endVertex();
+        vertexBuffer.pos(-7D, -2D, 2D).tex(f7, f8).endVertex();
+        vertexBuffer.pos(-7D, 2D, 2D).tex(f7, f9).endVertex();
+        vertexBuffer.pos(-7D, 2D, -2D).tex(f6, f9).endVertex();
         tessellator.draw();
         GL11.glNormal3f(-f10, 0.0F, 0.0F);
-        vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        vertexbuffer.pos(-7D, 2D, -2D).tex(f6, f8).endVertex();
-        vertexbuffer.pos(-7D, 2D, 2D).tex(f7, f8).endVertex();
-        vertexbuffer.pos(-7D, -2D, 2D).tex(f7, f9).endVertex();
-        vertexbuffer.pos(-7D, -2D, -2D).tex(f6, f9).endVertex();
-        /*tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV(-7D, 2D, -2D, f6, f8);
-        tessellator.addVertexWithUV(-7D, 2D, 2D, f7, f8);
-        tessellator.addVertexWithUV(-7D, -2D, 2D, f7, f9);
-        tessellator.addVertexWithUV(-7D, -2D, -2D, f6, f9);*/
+        vertexBuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
+        vertexBuffer.pos(-7D, 2D, -2D).tex(f6, f8).endVertex();
+        vertexBuffer.pos(-7D, 2D, 2D).tex(f7, f8).endVertex();
+        vertexBuffer.pos(-7D, -2D, 2D).tex(f7, f9).endVertex();
+        vertexBuffer.pos(-7D, -2D, -2D).tex(f6, f9).endVertex();
         tessellator.draw();
 
         for(int j = 0; j < 4; j++)
         {
             GL11.glRotatef(90F, 1.0F, 0.0F, 0.0F);
             GL11.glNormal3f(0.0F, 0.0F, f10);
-            vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
-            vertexbuffer.pos(-8D, -2D, 0.0D).tex(f2, f4).endVertex();
-            vertexbuffer.pos(8D, -2D, 0.0D).tex(f3, f4).endVertex();
-            vertexbuffer.pos(8D, 2D, 0.0D).tex(f3, f5).endVertex();
-            vertexbuffer.pos(-8D, 2D, 0.0D).tex(f2, f5).endVertex();
-            /*tessellator.startDrawingQuads();
-            tessellator.addVertexWithUV(-8D, -2D, 0.0D, f2, f4);
-            tessellator.addVertexWithUV(8D, -2D, 0.0D, f3, f4);
-            tessellator.addVertexWithUV(8D, 2D, 0.0D, f3, f5);
-            tessellator.addVertexWithUV(-8D, 2D, 0.0D, f2, f5);*/
+            vertexBuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
+            vertexBuffer.pos(-8D, -2D, 0.0D).tex(f2, f4).endVertex();
+            vertexBuffer.pos(8D, -2D, 0.0D).tex(f3, f4).endVertex();
+            vertexBuffer.pos(8D, 2D, 0.0D).tex(f3, f5).endVertex();
+            vertexBuffer.pos(-8D, 2D, 0.0D).tex(f2, f5).endVertex();
             tessellator.draw();
         }
 

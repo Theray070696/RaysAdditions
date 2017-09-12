@@ -2,31 +2,31 @@ package io.github.Theray070696.rayadd.item.gun;
 
 import io.github.Theray070696.rayadd.entity.EntityBullet;
 import io.github.Theray070696.rayadd.entity.EntityBulletCasing;
-import io.github.Theray070696.rayadd.entity.EntityBulletDeagle;
+import io.github.Theray070696.rayadd.entity.EntityBulletMp5;
 import io.github.Theray070696.rayadd.item.ModItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 
-public class ItemGunDeagle extends ItemGun
+public class ItemGunMp5 extends ItemGun
 {
-    public ItemGunDeagle()
+    public ItemGunMp5()
     {
         super();
-        this.firingSound = "rayadd:gun.deagle";
-        this.requiredBullet = ModItems.itemBulletMedium;
+        this.firingSound = "rayadd:gun.mp5";
+        this.requiredBullet = ModItems.itemBulletLight;
         this.numBullets = 1;
-        this.damage = 9;
-        this.muzzleVelocity = 4F;
-        this.spread = 2.0F;
-        this.useDelay = 8;
-        this.recoil = 4F;
-        this.setUnlocalizedName("itemGunDeagle");
+        this.damage = 4;
+        this.muzzleVelocity = 3F;
+        this.spread = 1.0F;
+        this.useDelay = 2;
+        this.recoil = 1.0F;
+        this.setUnlocalizedName("itemGunMp5");
     }
 
     @Override
     public EntityBullet getBulletEntity(World world, Entity entity)
     {
-        return new EntityBulletDeagle(world, entity, this);
+        return new EntityBulletMp5(world, entity, this);
     }
 
     @Override

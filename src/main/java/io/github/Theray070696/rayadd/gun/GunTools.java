@@ -1,9 +1,5 @@
 package io.github.Theray070696.rayadd.gun;
 
-import io.github.Theray070696.rayadd.item.gun.ItemBullet;
-import io.github.Theray070696.rayadd.item.gun.ItemMagInventory;
-import io.github.Theray070696.rayadd.util.LogHelper;
-import io.github.Theray070696.raycore.util.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.Tessellator;
@@ -80,11 +76,6 @@ public class GunTools
         vertexbuffer.pos(i, j, -90D).tex(1.0D, 1.0D).endVertex();
         vertexbuffer.pos(i, 0.0D, -90D).tex(1.0D, 0.0D).endVertex();
         vertexbuffer.pos(0.0D, 0.0D, -90D).tex(0.0D, 0.0D).endVertex();
-        /*tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV(0.0D, j, -90D, 0.0D, 1.0D);
-        tessellator.addVertexWithUV(i, j, -90D, 1.0D, 1.0D);
-        tessellator.addVertexWithUV(i, 0.0D, -90D, 1.0D, 0.0D);
-        tessellator.addVertexWithUV(0.0D, 0.0D, -90D, 0.0D, 0.0D);*/
         tessellator.draw();
         GL11.glDepthMask(true);
         GL11.glEnable(GL11.GL_DEPTH_TEST);
@@ -97,67 +88,10 @@ public class GunTools
         entityliving.attackEntityFrom(damagesource, i);
     }
 
-    public static Pair<Integer, ItemBullet> useItemInMag(ItemMagInventory magInventory, EnumBulletCaliber bulletCaliber, boolean doRemove)
-    {
-        if(magInventory == null)
-        {
-            return new Pair<>(0, null);
-        }
-
-        int slotID = getMagSlotContainItem(magInventory, bulletCaliber, -1);
-        ItemBullet itemBullet = null;
-
-        if(slotID < 0)
-        {
-            return new Pair<>(0, itemBullet);
-        }
-
-        itemBullet = (ItemBullet) magInventory.getStackInSlot(slotID).getItem();
-
-        if(doRemove)
-        {
-            magInventory.getStackInSlot(slotID).stackSize--;
-        }
-
-        if(magInventory.getStackInSlot(slotID).stackSize <= 0)
-        {
-            itemBullet = (ItemBullet) magInventory.getStackInSlot(slotID).getItem();
-
-            if(doRemove)
-            {
-                magInventory.setInventorySlotContents(slotID, null);
-            }
-
-            if(getMagSlotContainItem(magInventory, bulletCaliber, slotID) >= 0)
-            {
-                return new Pair<>(2, itemBullet);
-            }
-        }
-
-        return new Pair<>(1, itemBullet);
-    }
-
-    private static int getMagSlotContainItem(ItemMagInventory magInventory, EnumBulletCaliber bulletCaliber, int ignoreSlot)
-    {
-        for(int slotID = 0; slotID < magInventory.getSizeInventory(); slotID++)
-        {
-            if(slotID == ignoreSlot)
-            {
-                continue;
-            }
-
-            if(magInventory.getStackInSlot(slotID) != null && magInventory.getStackInSlot(slotID).getItem() instanceof ItemBullet && ((ItemBullet) magInventory.getStackInSlot(slotID).getItem()).bulletCaliber.equals(bulletCaliber))
-            {
-                return slotID;
-            }
-        }
-
-        return -1;
-    }
-
     /**
      * Returns 2 if uses item or uses final item damage and another still exists, returns 1 if item or final item damage is used and another
      * doesn't exist, returns 0 if nothing is or can be done.
+     *
      * @param entityplayer
      * @param item
      * @param doRemove
@@ -218,6 +152,7 @@ public class GunTools
 
     /**
      * Returns -1 if doesn't contain item, otherwise slot ID it is in
+     *
      * @param inventoryplayer
      * @param item
      * @return

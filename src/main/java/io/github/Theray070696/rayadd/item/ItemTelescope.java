@@ -18,8 +18,8 @@ public class ItemTelescope extends ItemRayAdd
     public ItemTelescope()
     {
         super();
-        setUnlocalizedName("itemTelescope");
-        setMaxStackSize(1);
+        this.setUnlocalizedName("itemTelescope");
+        this.setMaxStackSize(1);
     }
 
     @Override

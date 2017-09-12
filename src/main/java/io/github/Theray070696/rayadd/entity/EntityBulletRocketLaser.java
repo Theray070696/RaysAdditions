@@ -1,4 +1,4 @@
-package io.github.Theray070696.rayadd.entity.classic;
+package io.github.Theray070696.rayadd.entity;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -7,7 +7,7 @@ import io.github.Theray070696.rayadd.audio.SoundHandler;
 import io.github.Theray070696.rayadd.configuration.ConfigHandler;
 import io.github.Theray070696.rayadd.gun.GunTools;
 import io.github.Theray070696.rayadd.item.ModItems;
-import io.github.Theray070696.rayadd.item.gun.classic.ItemGunClassic;
+import io.github.Theray070696.rayadd.item.gun.ItemGun;
 import io.github.Theray070696.rayadd.network.PacketRocketExplode;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -32,24 +32,24 @@ import java.util.List;
 /**
  * Created by Theray070696 on 5/19/2017.
  */
-public class EntityBulletClassicRocketLaser extends EntityBulletClassic
+public class EntityBulletRocketLaser extends EntityBullet
 {
     protected static final float MAX_AIMING_ANGLE = 30F;
     protected static final float MAX_TURNING_ANGLE = 10F;
 
-    public EntityBulletClassicRocketLaser(World world)
+    public EntityBulletRocketLaser(World world)
     {
         super(world);
         setSize(0.25F, 0.25F);
     }
 
-    public EntityBulletClassicRocketLaser(World world, double d, double d1, double d2)
+    public EntityBulletRocketLaser(World world, double d, double d1, double d2)
     {
         super(world, d, d1, d2);
         setSize(0.25F, 0.25F);
     }
 
-    public EntityBulletClassicRocketLaser(World world, Entity entity, ItemGunClassic itemgun)
+    public EntityBulletRocketLaser(World world, Entity entity, ItemGun itemgun)
     {
         super(world, entity, itemgun);
         setSize(0.25F, 0.25F);
@@ -58,8 +58,8 @@ public class EntityBulletClassicRocketLaser extends EntityBulletClassic
     @Override
     public void playServerSound(World world)
     {
-        //world.playSoundAtEntity(this, ((ItemGunClassic) ModItems.itemGunRocketLauncherLaser).firingSound, ((ItemGunClassic) ModItems.itemGunRocketLauncherLaser).soundRangeFactor, 1.0F / (rand.nextFloat() * 0.1F + 0.95F));
-        SoundHandler.playSoundName(((ItemGunClassic) ModItems.itemGunRocketLauncherLaser).firingSound, world, SoundCategory.PLAYERS, this.getPosition(), 1.0F, 1.0F / (rand.nextFloat() * 0.1F + 0.95F));
+        //world.playSoundAtEntity(this, ((ItemGun) ModItems.itemGunRocketLauncherLaser).firingSound, ((ItemGun) ModItems.itemGunRocketLauncherLaser).soundRangeFactor, 1.0F / (rand.nextFloat() * 0.1F + 0.95F));
+        SoundHandler.playSoundName(((ItemGun) ModItems.itemGunRocketLauncherLaser).firingSound, world, SoundCategory.PLAYERS, this.getPosition(), 1.0F, 1.0F / (rand.nextFloat() * 0.1F + 0.95F));
     }
 
     @Override
