@@ -1,0 +1,5 @@
+sudo: true
+language: java
+branches:
+  only:
+  - master

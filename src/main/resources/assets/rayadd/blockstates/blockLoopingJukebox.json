@@ -1,0 +1,21 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "down": "rayadd:blocks/loopingJukebox_side",
+      "up": "rayadd:blocks/loopingJukebox_top",
+      "east": "rayadd:blocks/loopingJukebox_side",
+      "west": "rayadd:blocks/loopingJukebox_side",
+      "north": "rayadd:blocks/loopingJukebox_side",
+      "south": "rayadd:blocks/loopingJukebox_side"
+    }
+  },
+  "variants": {
+    "normal": {
+      "model": "cube"
+    },
+    "inventory": {
+      "model": "cube"
+    }
+  }
+}

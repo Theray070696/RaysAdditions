@@ -1,0 +1,44 @@
+tile.rayadd:blockLoopingJukebox.name=Looping Jukebox
+
+item.rayadd:itemBulletCasing.name=Bullet Casing
+item.rayadd:itemBulletCasingShell.name=Shell Casing
+
+item.rayadd:itemTelescope.name=Telescope
+
+item.rayadd:itemBulletLight.name=Light Bullet
+item.rayadd:itemBulletMedium.name=Medium Bullet
+item.rayadd:itemBulletHeavy.name=Heavy Bullet
+item.rayadd:itemBulletShell.name=Shotgun Shell
+item.rayadd:itemBulletRocket.name=Rocket
+item.rayadd:itemBulletRocketLaser.name=Laser-Guided Rocket
+
+item.rayadd:itemShortBarrel.name=Short Barrel
+item.rayadd:itemLongBarrel.name=Long Barrel
+item.rayadd:itemFatBarrel.name=Fat Barrel
+item.rayadd:itemShotgunBarrel.name=Shotgun Barrel
+item.rayadd:itemMinigunBarrel.name=Minigun Barrel
+
+item.rayadd:itemHandleMinigun.name=Minigun Handle
+
+item.rayadd:itemMagazine.name=Magazine
+
+item.rayadd:itemWoodGrip.name=Wood Grip
+item.rayadd:itemStockWood.name=Wood Stock
+
+item.rayadd:itemMetalGrip.name=Metal Grip
+item.rayadd:itemStockMetal.name=Metal Stock
+item.rayadd:itemMetalParts.name=Metal Parts
+item.rayadd:itemMetalReceiver.name=Metal Receiver
+
+item.rayadd:itemScope.name=Scope
+
+item.rayadd:itemGunAk47.name=AK47
+item.rayadd:itemGunDeagle.name=Desert Eagle
+item.rayadd:itemGunM4.name=M4
+item.rayadd:itemGunMinigun.name=Minigun
+item.rayadd:itemGunMp5.name=MP5
+item.rayadd:itemGunSg552.name=SG552
+item.rayadd:itemGunShotgun.name=Shotgun
+item.rayadd:itemGunSniper.name=Sniper Rifle
+item.rayadd:itemGunRocketLauncher.name=Rocket Launcher
+item.rayadd:itemGunRocketLauncherLaser.name=Laser-Guided Rocket Launcher
